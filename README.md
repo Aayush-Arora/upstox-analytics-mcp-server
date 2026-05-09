@@ -154,7 +154,7 @@ You can interact with the Upstox analytics APIs through natural language prompts
 
 ### News
 
-- "Get latest news for RELIANCE and INFY"
+- "Get latest news for NSE_EQ|INE002A01018 (Reliance) and NSE_EQ|INE009A01021 (Infosys)"
 - "Show me news articles for NSE_EQ|INE848E01016 and NSE_EQ|INE009A01021"
 - "Fetch news for my current positions"
 - "What's the latest news for my holdings?"

@@ -8,12 +8,14 @@ import {
 } from "../constants";
 import { createTokenNotFoundError } from "../utils";
 
+const MAX_INSTRUMENT_KEYS = 30;
+
 export const getNewsSchema = {
     category: z.enum(["instrument_keys", "positions", "holdings"]).describe(
         "News category: 'instrument_keys' for specific instruments, 'positions' for current positions, 'holdings' for holdings"
     ),
     instrument_keys: z.string().optional().describe(
-        "Comma-separated list of instrument keys (max 30). Required when category is 'instrument_keys'"
+        `Comma-separated list of instrument keys (max ${MAX_INSTRUMENT_KEYS}). Required when category is 'instrument_keys'`
     ),
     page_number: z.number().int().min(1).max(100).optional().default(1).describe(
         "Page number for pagination (1-100, default 1)"
@@ -23,14 +25,32 @@ export const getNewsSchema = {
     ),
 };
 
-const GetNewsArgsSchema = z.object(getNewsSchema);
+const GetNewsArgsSchema = z.object(getNewsSchema).superRefine((val, ctx) => {
+    if (val.category === "instrument_keys" && !val.instrument_keys) {
+        ctx.addIssue({
+            code: z.ZodIssueCode.custom,
+            message: "instrument_keys is required when category is 'instrument_keys'",
+            path: ["instrument_keys"],
+        });
+    }
+    if (val.instrument_keys) {
+        const keys = val.instrument_keys.split(",").map(k => k.trim()).filter(Boolean);
+        if (keys.length > MAX_INSTRUMENT_KEYS) {
+            ctx.addIssue({
+                code: z.ZodIssueCode.custom,
+                message: `instrument_keys must contain at most ${MAX_INSTRUMENT_KEYS} keys`,
+                path: ["instrument_keys"],
+            });
+        }
+    }
+});
 
 type GetNewsArgs = z.infer<typeof GetNewsArgsSchema>;
 
 interface NewsArticle {
     heading: string;
     summary: string;
-    thumbnail: string;
+    thumbnail: string | null | undefined;
     article_link: string;
     published_time: number;
 }
@@ -69,13 +89,8 @@ export const getNewsHandler: ToolHandler<GetNewsArgs> = async (
         url.searchParams.append("instrument_keys", validatedArgs.instrument_keys);
     }
 
-    if (validatedArgs.page_number !== undefined) {
-        url.searchParams.append("page_number", validatedArgs.page_number.toString());
-    }
-
-    if (validatedArgs.page_size !== undefined) {
-        url.searchParams.append("page_size", validatedArgs.page_size.toString());
-    }
+    url.searchParams.append("page_number", validatedArgs.page_number.toString());
+    url.searchParams.append("page_size", validatedArgs.page_size.toString());
 
     const response = await fetch(url.toString(), {
         method: "GET",
