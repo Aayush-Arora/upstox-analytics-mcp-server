@@ -1,6 +1,6 @@
 # upstox-analytics-mcp-server
 
-A MCP server for Upstox read-only analytics APIs — historical data, market quotes, and option chain. Uses an Upstox analytics token (no API key or secret required).
+A MCP server for Upstox read-only analytics APIs — historical data, market quotes, option chain, and news. Uses an Upstox analytics token (no API key or secret required).
 
 ## Quick Start
 
@@ -152,6 +152,13 @@ You can interact with the Upstox analytics APIs through natural language prompts
 - "What's the PCR for NIFTY at each strike for this expiry?"
 - "Show me open interest and IV across NIFTY strikes"
 
+### News
+
+- "Get latest news for RELIANCE and INFY"
+- "Show me news articles for NSE_EQ|INE848E01016 and NSE_EQ|INE009A01021"
+- "Fetch news for my current positions"
+- "What's the latest news for my holdings?"
+
 ## Available Tools
 
 | Tool | Method | Description |
@@ -168,3 +175,4 @@ You can interact with the Upstox analytics APIs through natural language prompts
 | `get-option-greeks` | GET | Retrieve option Greeks (delta, gamma, theta, vega, IV) for up to 50 option instruments |
 | `get-option-contracts` | GET | List active option contracts for an underlying instrument with optional expiry filter |
 | `get-option-chain` | GET | Get full put/call option chain with Greeks and market data for a given underlying and expiry |
+| `get-news` | GET | Fetch news articles (last 7 days) for up to 30 instrument keys, current positions, or holdings |

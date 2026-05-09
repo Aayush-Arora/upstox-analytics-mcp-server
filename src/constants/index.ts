@@ -19,6 +19,9 @@ export const UPSTOX_API_OPTION_CHAIN_ENDPOINT = "/v2/option/chain";
 // Instruments
 export const UPSTOX_API_INSTRUMENTS_SEARCH_ENDPOINT = "/v2/instruments/search";
 
+// News
+export const UPSTOX_API_NEWS_ENDPOINT = "/v2/news";
+
 export const HEADERS = {
   ACCEPT: "application/json",
 };

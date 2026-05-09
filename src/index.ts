@@ -14,6 +14,7 @@ import {
     getOptionContractsSchema, getOptionContractsHandler,
     getOptionChainSchema, getOptionChainHandler,
     searchInstrumentsSchema, searchInstrumentsHandler,
+    getNewsSchema, getNewsHandler,
 } from "./tools";
 
 export class MyMCP extends McpAgent {
@@ -152,6 +153,16 @@ export class MyMCP extends McpAgent {
             async (args, extra) => {
                 const enhancedExtra = { ...extra, env: this.env };
                 return searchInstrumentsHandler(args as any, enhancedExtra);
+            }
+        );
+
+        this.server.tool(
+            "get-news",
+            getNewsSchema,
+            { readOnlyHint: true, openWorldHint: false, destructiveHint: false },
+            async (args, extra) => {
+                const enhancedExtra = { ...extra, env: this.env };
+                return getNewsHandler(args as any, enhancedExtra);
             }
         );
     }
