@@ -159,7 +159,7 @@ export class MyMCP extends McpAgent {
         this.server.tool(
             "get-news",
             getNewsSchema,
-            { readOnlyHint: true, openWorldHint: false, destructiveHint: false },
+            { readOnlyHint: true, openWorldHint: true, destructiveHint: false },
             async (args, extra) => {
                 const enhancedExtra = { ...extra, env: this.env };
                 return getNewsHandler(args as any, enhancedExtra);
