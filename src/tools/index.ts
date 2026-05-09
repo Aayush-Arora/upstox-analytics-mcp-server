@@ -12,3 +12,4 @@ export * from "./get-option-greeks";
 export * from "./get-option-contracts";
 export * from "./get-option-chain";
 export * from "./search-instruments";
+export * from "./get-news";
