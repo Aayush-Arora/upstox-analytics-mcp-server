@@ -9,7 +9,7 @@ A MCP server for Upstox read-only analytics APIs — historical data, market quo
 1. Clone the repository:
 
 ```bash
-git clone https://github.com/yourusername/upstox-analytics-mcp-server.git
+git clone https://github.com/Aayush-Arora/upstox-analytics-mcp-server.git
 cd upstox-analytics-mcp-server
 ```
 
